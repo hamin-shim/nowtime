@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import copy from "copy-to-clipboard";
 
 function App() {
+  const [keyword, setKw] = useState("");
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const slug = keyword + "/" + Date.now();
+    const ok = window.confirm("Your slug is: " + slug);
+    if (ok) {
+      copy(slug);
+      alert("copied!");
+    } else {
+      console.log("cancel");
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Make your slug based on milli second!</h1>
+      <h5>Please enter your keyword with english</h5>
+      <form onSubmit={onSubmit}>
+        <input
+          style={{ fontSize: "20px" }}
+          onChange={(e) => setKw(e.target.value)}
+          value={keyword}
+          placeholder="enter keyword"
+        />
+        <input type="submit" value="slug 만들기" style={{ fontSize: "20px" }} />
+      </form>
     </div>
   );
 }
